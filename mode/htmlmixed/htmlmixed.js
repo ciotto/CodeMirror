@@ -104,11 +104,14 @@
             state.localState = state.localMode = null;
             return null;
           }
-          return maybeBackup(stream, endTag, state.localMode.token(stream, state.localState));
+
+          var style = maybeBackup(stream, endTag, state.localMode.token(stream, state.localState));
+          return style ? mode.name + " " + style : mode.name;
         };
         state.localMode = mode;
         state.localState = CodeMirror.startState(mode, htmlMode.indent(state.htmlState, ""));
       }
+
       return style;
     };
 
