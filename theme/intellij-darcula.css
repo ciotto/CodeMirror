@@ -1,0 +1,59 @@
+
+	.cm-s-intellij.CodeMirror { background: #393939; color: #BABABA; }
+
+.cm-s-intellij span.cm-meta { color: #E8BF6A; }
+	.cm-s-intellij span.cm-keyword { line-height: 1em; font-weight: bold; color: #CC7832; }
+
+    .cm-s-intellij span.cm-atom { color: #CC7832; }
+	.cm-s-intellij span.cm-css.cm-atom { color: #BABABA; }
+	.cm-s-intellij span.cm-colorKeywords { font-weight: normal; color: #BABABA; }
+	.cm-s-intellij span.cm-number { color: #6897BB; }
+	.cm-s-intellij span.cm-def { color: #BABABA; }
+
+	.cm-s-intellij span.cm-variable { color: #BABABA; }
+	.cm-s-intellij span.cm-variable-2 { color: #9876AA; }
+	.cm-s-intellij span.cm-variable-3 { color: #E8BF6A; }
+
+	.cm-s-intellij span.cm-property { color: #9876AA; }
+	.cm-s-intellij span.cm-operator { color: #BABABA; }
+	.cm-s-intellij span.cm-comment { color: #808080; }
+	.cm-s-intellij span.cm-string { color: #A5C261; }
+	.cm-s-intellij span.cm-javascript.cm-string { color: #6A8759; }
+	.cm-s-intellij span.cm-string-2 { color: #6A8759; }
+	.cm-s-intellij span.cm-qualifier { color: #E8BF6A; }
+	.cm-s-intellij span.cm-builtin { color: #E8BF6A; }
+	.cm-s-intellij span.cm-bracket { color: #BABABA; }
+	.cm-s-intellij span.cm-tag { color: #E8BF6A; }
+	.cm-s-intellij span.cm-css.cm-tag { color: #CC7832; }
+	.cm-s-intellij span.cm-attribute { color: #BABABA; }
+	.cm-s-intellij span.cm-link { color: #287BDE; }
+	.cm-s-intellij span.cm-error { color: #BC3F3C; }
+
+	.cm-s-intellij .CodeMirror-activeline-background { background: #414141; }
+	.cm-s-intellij .CodeMirror-matchingbracket { background: #3B514D; color:#FFEF28 !important; }
+
+    .cm-s-intellij span.cm-hex-color { color: #6897BB; }
+    .cm-s-intellij span.cm-class-dot { color: #BABABA; }
+    .cm-s-intellij span.cm-number-unit { color: #BABABA; }
+
+	.CodeMirror-focused .CodeMirror-selected { background: #214283; }
+	.CodeMirror-cursor {
+		border-left: 2px solid #BABABA;
+	}
+	.CodeMirror-gutters {
+		background: #404245;
+		border-right: 1px solid #646565;
+	}
+
+
+
+/*
+
+Missing CSS ; #CC7832
+Missing CSS unit #BABABA
+
+style="" as CSS
+
+black atom not keyword
+
+*/
