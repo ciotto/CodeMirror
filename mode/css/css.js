@@ -52,16 +52,16 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       return state.tokenize(stream, state);
     } else if (ch == "#") {
       stream.eatWhile(/[\w\\\-]/);
-      return ret("atom", "hash");
+      return ret("atom hex-color", "hash");
     } else if (ch == "!") {
       stream.match(/^\s*\w*/);
       return ret("keyword", "important");
     } else if (/\d/.test(ch) || ch == "." && stream.eat(/\d/)) {
-      stream.eatWhile(/[\w.%]/);
+      //stream.eatWhile(/[\w.%]/);
       return ret("number", "unit");
     } else if (ch === "-") {
       if (/[\d.]/.test(stream.peek())) {
-        stream.eatWhile(/[\w.%]/);
+        stream.eatWhile(/./);
         return ret("number", "unit");
       } else if (stream.match(/^-[\w\\\-]+/)) {
         stream.eatWhile(/[\w\\\-]/);
@@ -73,8 +73,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       }
     } else if (/[,+>*\/]/.test(ch)) {
       return ret(null, "select-op");
-    } else if (ch == "." && stream.match(/^-?[_a-z][_a-z0-9-]*/i)) {
-      return ret("qualifier", "qualifier");
+    } else if (ch == ".") {
+      return ret("qualifier class-dot", "qualifier");
     } else if (/[:;{}\[\]\(\)]/.test(ch)) {
       return ret(null, ch);
     } else if ((ch == "u" && stream.match(/rl(-prefix)?\(/)) ||
@@ -83,6 +83,12 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       stream.backUp(1);
       state.tokenize = tokenParenthesized;
       return ret("property", "word");
+    } else if (/[\w\\\-]/.test(ch) && state.state == 'qualifier') {
+      stream.eatWhile(/[\w\\\-]/);
+      return ret("qualifier", "qualifier");
+    } else if (/[\w\\\-]/.test(ch) && state.state == 'unit') {
+      stream.eatWhile(/[\w\\\-]/);
+      return ret("number number-unit", "unit");
     } else if (/[\w\\\-]/.test(ch)) {
       stream.eatWhile(/[\w\\\-]/);
       return ret("property", "word");
@@ -150,7 +156,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     if (valueKeywords.hasOwnProperty(word))
       override = "atom";
     else if (colorKeywords.hasOwnProperty(word))
-      override = "keyword";
+      override = "keyword colorKeywords";
     else
       override = "variable";
   }
@@ -187,6 +193,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       return "pseudo";
     } else if (allowNested && type == "(") {
       return pushContext(state, stream, "parens");
+    }else if (type == "qualifier"){
+      return pushContext(state, stream, "qualifier");
     }
     return state.context.type;
   };
@@ -234,6 +242,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       wordAsValue(stream);
     } else if (type == "interpolation") {
       return pushContext(state, stream, "interpolation");
+    } else if (type == "unit"){
+      return pushContext(state, stream, "unit");
     }
     return "prop";
   };
@@ -251,6 +261,14 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     if (type == "interpolation") return pushContext(state, stream, "interpolation");
     if (type == "word") wordAsValue(stream);
     return "parens";
+  };
+
+  states.qualifier = function(type, stream, state) {
+    return popContext(state);
+  };
+
+  states.unit = function(type, stream, state) {
+    return popContext(state);
   };
 
   states.pseudo = function(type, stream, state) {
@@ -294,7 +312,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       else if (valueKeywords.hasOwnProperty(word))
         override = "atom";
       else if (colorKeywords.hasOwnProperty(word))
-        override = "keyword";
+        override = "keyword colorKeywords";
       else
         override = "error";
     }
